@@ -1,46 +1,6 @@
 .App {
     font-family: Arial, sans-serif;
   }
-  
-  .hamburger {
-    font-size: 30px;
-    cursor: pointer;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-  }
-  
-  .sidebar {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Initially hidden */
-    width: 30%;
-    height: 100%;
-    background-color: #003566;
-    color: white;
-    transition: right 0.3s ease-in-out;
-    padding: 20px;
-  }
-  
-  .sidebar.open {
-    right: 0; /* When open, it slides into view */
-  }
-  
-  .close-btn {
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
-  
-  .sidebar-content {
-    margin-top: 60px;
-  }
   .extension-icon {
     position: fixed;
     top: 10px;   /* Adjust this value for desired distance from top */
@@ -52,9 +12,27 @@
   .Title{
     position: fixed;
     top: 3px;   /* Adjust this value for desired distance from top */
-    left: 90px;  /* Adjust this value for desired distance from left */
+    left: 70px;  /* Adjust this value for desired distance from left */
     font-size: 30px;
     font-family: "Archivo", sans-serif;
     font-weight: 400;
     color:white;
+  }
+  .extension-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  
+  
+  .screen-time-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 40px; /* Adjust size as needed */
+    cursor: pointer;
+    color: #003566; /* Adjust color if needed */
   }

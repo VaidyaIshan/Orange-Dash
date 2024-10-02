@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "orangedash",
   "version": "1.0.0",
-  "description": "A Chrome extension for quick access to favorite web applications.",
+  "description": "A minimalistic chrome extension to elevate tab design and track screen time",
   "action": {
     "default_popup": "index.html",
     "default_icon": "android-chrome-512x512.png"
@@ -10,9 +10,7 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": [
-    "activeTab"
-  ],
+  "permissions": ["tabs", "storage", "activeTab"],
   "icons": {
     "48": "android-chrome-512x512.png"
   },
