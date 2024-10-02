@@ -1,4 +1,23 @@
-.screen-time-window {
+
+  .screen-time-window.active {
+    transform: translateX(0); /* Slide into view */
+  }
+  
+  /* Add animation to the sliding effect */
+  .screen-time-window.active {
+    animation: slideIn 0.3s forwards;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  .screen-time-window {
     position: fixed;
     top: 0;
     right: 0;
@@ -28,9 +47,9 @@
     align-items: center;
     margin-bottom: 20px;
     font-family: "Archivo", sans-serif;
-    font-weight: 400;
-    font-size: 24px;
-    top:10px;
+    font-weight: 100;
+    font-size: 20px;
+    top:15px;
   }
   
   .screen-time-header h2 {
@@ -42,9 +61,6 @@
   .close-btn {
     background: none;
     border: none;
-    font-family: "Archivo", sans-serif;
-    font-weight: 400;
-    font-size: 24px;
     color: white;
     cursor: pointer;
   }
@@ -58,4 +74,6 @@
   .screen-time-list li {
     margin: 10px 0;
     font-size: 18px;
+    font-family: "Archivo", sans-serif;
+
   }
