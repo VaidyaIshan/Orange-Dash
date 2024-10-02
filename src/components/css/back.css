@@ -1,0 +1,15 @@
+.video-background {
+    position: fixed; /* Make it fixed to cover the whole viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* Send to back */
+}
+
+#bg-video {
+    width: 100%; /* Make the video responsive */
+    height: 100%;
+    object-fit: cover; /* Cover the entire container */
+}

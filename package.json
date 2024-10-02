@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "orangedash",
+  "version": "1.0.0",
+  "description": "A Chrome extension for quick access to favorite web applications.",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "public/android-chrome-512x512.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "icons": {
+    "48": "public/android-chrome-512x512.png"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

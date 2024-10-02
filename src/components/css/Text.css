@@ -1,0 +1,26 @@
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    text-align: center;
+  }
+  
+  .time {
+    font-size: 180px;
+    color: white;
+   
+    margin-bottom: 10px; 
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+  font-optical-sizing: auto;
+  }
+  
+  .maintitle {
+    font-size: 70px;
+    color: white;
+    font-family: "Archivo", sans-serif;
+    font-weight: 300;
+  font-optical-sizing: auto;
+  }

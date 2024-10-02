@@ -1,0 +1,67 @@
+.workspace {
+    position: fixed;
+    bottom: -100%; /* Initially hidden at the bottom */
+    left: 0;
+    width: 100%;
+    height: 30%; /* Height is half the screen */
+    background-color: #00296b;/* Dark background with transparency */
+    backdrop-filter: blur(10px); /* Blur effect */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; /* Center items */
+    transition: bottom 0.5s ease-out;
+    box-shadow: #00296b; /* Shadow for contrast */
+  }
+  
+  .workspace.active {
+    bottom: 0; /* Slide up to the screen */
+  }
+  
+  .maintitle {
+    color: white;
+    margin-top: 20px; /* Adjusted margin for the title */
+  }
+  
+  .dock {
+    display: flex; /* Horizontal layout */
+    justify-content: center; /* Center the dock items */
+    align-items: center; /* Center vertically */
+    width: 100%;
+    padding: 10px 0; /* Spacing above and below the dock */
+  }
+  
+  .link-item {
+    display: flex;
+    flex-direction: column; /* Stack icon and name */
+    align-items: center; /* Center icon and name */
+    margin: 0 10px; /* Margin between dock items */
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+  }
+  
+  .link-item:hover {
+    transform: scale(1.2); /* Scale up the item on hover */
+  }
+  
+  .link-item a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column; /* Stack icon and name */
+    align-items: center; /* Center icon and name */
+  }
+  
+  .link-icon {
+    width: 50px; /* Icon size */
+    height: 50px; /* Icon size */
+    margin-bottom: 5px; /* Space between icon and name */
+    transition: transform 0.3s ease; /* Smooth transition for icon scaling */
+  }
+  
+  .link-item:hover .link-icon {
+    transform: scale(1.2); /* Scale up the icon on hover */
+  }
+  
+  .link-name {
+    font-size: 14px; /* Adjust font size as needed */
+  }
