@@ -3,15 +3,15 @@ import './App.css';
 import BackgroundVideo from './components/BackgroundVideo.js';
 import Text from './components/Maintext.js';
 import Workspace from './components/workspace.js';
-import ScreenTime from './components/ScreenTime.js'; // Import ScreenTime component
+import ScreenTime from './components/ScreenTime.js';
+import { MdAccessTimeFilled } from "react-icons/md";
 import icon from "./assets/android-chrome-512x512.png";
-import { MdAccessTimeFilled } from "react-icons/md"; // Import the time icon
 
 function App() {
-  const [showScreenTime, setShowScreenTime] = useState(false); // State to toggle screen time
+  const [showScreenTime, setShowScreenTime] = useState(false);
 
   const toggleScreenTime = () => {
-    setShowScreenTime(!showScreenTime); // Toggle screen time visibility
+    setShowScreenTime(!showScreenTime);
   };
 
   return (
@@ -27,14 +27,18 @@ function App() {
         <Text />
         <Workspace />
 
-        {/* Screen time icon at the top right corner */}
         <MdAccessTimeFilled
           className="screen-time-icon"
-          onClick={toggleScreenTime} // Toggle screen time when icon is clicked
+          onClick={toggleScreenTime}
         />
 
         {/* Conditionally render the ScreenTime component */}
-        {showScreenTime && <ScreenTime />}
+        {showScreenTime && (
+          <ScreenTime
+            onClose={toggleScreenTime}
+            className={showScreenTime ? 'active' : ''}
+          />
+        )}
       </div>
     </>
   );

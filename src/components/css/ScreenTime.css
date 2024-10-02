@@ -1,28 +1,61 @@
-/* ScreenTime.css */
-.screen-time-container {
+.screen-time-window {
     position: fixed;
-    top: 20%;
-    right: 5%;
-    width: 300px;
-    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    right: 0;
+    width: 30%; /* 40% of the screen */
+    height: 100%;
+    background-color: #00296b; /* Background color */
     color: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: 1000; /* Ensure it's above other elements */
+    transform: translateX(100%); /* Initially hidden */
+    transition: transform 0.3s ease-in-out; /* Smooth slide-in */
   }
   
-  .screen-time-container h2 {
+  .screen-time-window.active {
+    transform: translateX(0); /* Slide into view */
+  }
+  
+  .screen-time-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    top:10px;
+  }
+  
+  .screen-time-header h2 {
     margin: 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #fff;
+    font-family: "Archivo", sans-serif;
+
   }
   
-  .screen-time-container ul {
+  .close-btn {
+    background: none;
+    border: none;
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .screen-time-list {
     list-style: none;
     padding: 0;
+    width: 100%;
   }
   
-  .screen-time-container li {
-    margin-top: 10px;
+  .screen-time-list li {
+    margin: 10px 0;
+    font-size: 18px;
   }
