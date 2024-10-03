@@ -25,6 +25,12 @@
   "background": {
     "service_worker": "background.js"
   },
+    "dependencies": {
+  "react": "^18.0.0",
+  "react-dom": "^18.0.0",
+  "react-icons": "^4.0.0",
+  "web-vitals": "^2.0.0"
+},
   "browserslist": {
     "production": [
       ">0.2%",
