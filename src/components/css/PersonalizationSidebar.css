@@ -1,0 +1,44 @@
+.personalization-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%;
+    height: 100%;
+    background-color: #f5f5f5;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 999;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  .file-upload input {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  .preview-section {
+    margin-top: 20px;
+  }
+  
+  .preview-image, .preview-video {
+    width: 100%;
+    border-radius: 5px;
+  }
+  
+  .action-buttons {
+    margin-top: 20px;
+  }
+  
+  .save-btn, .reset-btn {
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }

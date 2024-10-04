@@ -36,3 +36,22 @@
     cursor: pointer;
     color: #003566; /* Adjust color if needed */
   }
+  .icon-bar {
+    position: absolute; /* Allow positioning relative to parent */
+    top: 70px;         /* Adjust top position as needed */
+    right: 20px;       /* Adjust right position as needed */
+    display: flex;
+    gap: 15px;         /* Space between icons */
+  }
+  
+  .personalization-icon {
+    font-size: 30px;   /* Adjust size if necessary */
+    color: #333;       /* Set a visible color */
+    cursor: pointer;
+  }
+  
+  .screen-time-icon {
+    font-size: 30px;   /* Adjust size if necessary */
+    color: #333;       /* Set a visible color */
+    cursor: pointer;
+  }
