@@ -6,7 +6,7 @@
 To install and test this extension follow these steps:
 1. Clone this repo on your desktop.
 2. Open Chrome and visit chrome://extensions/
-3. Open load unpacked and open the build folder.
+3. Enable Developer Mode and Open load unpacked and open the build folder.
 4. The extension will startup on a new tab.
 
 
