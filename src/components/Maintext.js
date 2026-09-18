@@ -1,43 +1,45 @@
 import React, { useState, useEffect } from "react";
 import "./css/Text.css";
+import { useSettings } from "../context/SettingsContext";
+
+function formatTime(date, format24h) {
+  if (format24h) {
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+  }
+  const time = date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", hour12: true });
+  return time.replace(/(AM|PM)/, "").trim();
+}
+
+function formatDate(date, dateStyle) {
+  if (dateStyle === "short") {
+    return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+  }
+  return date.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+}
 
 function Text() {
+  const { settings } = useSettings();
   const [currentTime, setCurrentTime] = useState("");
-  const [currentDate, setCurrentDate] = useState("");  // Added state for date
+  const [currentDate, setCurrentDate] = useState("");
 
-  // Update the time every minute (12-hour format without leading zero and AM/PM)
   useEffect(() => {
-    const getTime = () => {
-      const time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
-      const timeWithoutAMPM = time.replace(/(AM|PM)/, '').trim(); // Remove AM/PM and trim extra spaces
-      setCurrentTime(timeWithoutAMPM);
+    const tick = () => {
+      const now = new Date();
+      setCurrentTime(formatTime(now, settings.clock.format24h));
+      setCurrentDate(formatDate(now, settings.clock.dateStyle));
     };
 
-    getTime(); // Set the time immediately when the component is mounted
-    const interval = setInterval(getTime, 60000); // Update time every minute
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [settings.clock.format24h, settings.clock.dateStyle]);
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
-
-  // Format and set the current date (e.g., "Monday, 30 September")
-  useEffect(() => {
-    const formatDate = () => {
-      const options = { weekday: 'long', day: 'numeric', month: 'long' };
-      const formattedDate = new Date().toLocaleDateString('en-GB', options);
-      setCurrentDate(formattedDate); // Update state with the formatted date
-    };
-
-    formatDate(); // Initial call to set the current day and date
-    const interval = setInterval(formatDate, 60000); // Update date every minute
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+  if (!settings.clock.show) return null;
 
   return (
     <div className="text-container">
-      {/* Display time and formatted date */}
       <h1 className="time">{currentTime}</h1>
-      <h1 className="maintitle">{currentDate}</h1>
+      {settings.clock.showDate && <h1 className="maintitle">{currentDate}</h1>}
     </div>
   );
 }

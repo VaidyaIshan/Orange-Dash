@@ -57,10 +57,10 @@
 
   .toolbar-icon:hover {
     transform: scale(1.08);
-    background: rgba(251, 133, 0, 0.85);
+    background: var(--od-accent, #fb8500);
   }
 
   .toolbar-icon.active {
-    background: #fb8500;
-    border-color: #fb8500;
+    background: var(--od-accent, #fb8500);
+    border-color: var(--od-accent, #fb8500);
   }

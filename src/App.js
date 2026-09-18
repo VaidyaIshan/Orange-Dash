@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import './App.css';
-import BackgroundVideo from './components/BackgroundVideo.js';
+import Background from './components/Background.js';
 import Text from './components/Maintext.js';
 import Workspace from './components/workspace.js';
 import ScreenTime from './components/ScreenTime.js';
 import TodoList from './components/TodoList.js';
 import Pomodoro from './components/Pomodoro.js';
 import StickyNotes from './components/StickyNotes.js';
-import { MdAccessTimeFilled, MdChecklist, MdTimer, MdStickyNote2 } from "react-icons/md";
+import Settings from './components/Settings.js';
+import { useSettings } from './context/SettingsContext';
+import {
+  MdAccessTimeFilled,
+  MdChecklist,
+  MdTimer,
+  MdStickyNote2,
+  MdSettings,
+} from "react-icons/md";
 import icon from "./assets/android-chrome-512x512.png";
 
 function App() {
+  const { settings } = useSettings();
   const [activePanel, setActivePanel] = useState(null);
   const [notesVisible, setNotesVisible] = useState(false);
 
@@ -21,53 +30,71 @@ function App() {
   return (
     <>
       <div>
-        <img
-          src={icon}
-          alt="Extension Icon"
-          className="extension-icon"
-        />
-        <h1 className="Title">Orange Dash</h1>
-        <BackgroundVideo />
+        {settings.header.showLogo && (
+          <img src={icon} alt="Extension Icon" className="extension-icon" />
+        )}
+        {settings.header.showTitle && <h1 className="Title">{settings.header.title}</h1>}
+        <Background />
         <Text />
-        <Workspace />
+        {settings.widgets.bookmarks && <Workspace />}
 
         <div className="toolbar">
+          {settings.widgets.stickyNotes && (
+            <button
+              className={`toolbar-icon ${notesVisible ? "active" : ""}`}
+              onClick={() => setNotesVisible((v) => !v)}
+              title="Sticky Notes"
+            >
+              <MdStickyNote2 />
+            </button>
+          )}
+          {settings.widgets.pomodoro && (
+            <button
+              className={`toolbar-icon ${activePanel === "pomodoro" ? "active" : ""}`}
+              onClick={() => togglePanel("pomodoro")}
+              title="Pomodoro Tracker"
+            >
+              <MdTimer />
+            </button>
+          )}
+          {settings.widgets.todo && (
+            <button
+              className={`toolbar-icon ${activePanel === "todo" ? "active" : ""}`}
+              onClick={() => togglePanel("todo")}
+              title="To-Do List"
+            >
+              <MdChecklist />
+            </button>
+          )}
+          {settings.widgets.screenTime && (
+            <button
+              className={`toolbar-icon ${activePanel === "screenTime" ? "active" : ""}`}
+              onClick={() => togglePanel("screenTime")}
+              title="Screen Time"
+            >
+              <MdAccessTimeFilled />
+            </button>
+          )}
           <button
-            className={`toolbar-icon ${notesVisible ? "active" : ""}`}
-            onClick={() => setNotesVisible((v) => !v)}
-            title="Sticky Notes"
+            className={`toolbar-icon ${activePanel === "settings" ? "active" : ""}`}
+            onClick={() => togglePanel("settings")}
+            title="Settings"
           >
-            <MdStickyNote2 />
-          </button>
-          <button
-            className={`toolbar-icon ${activePanel === "pomodoro" ? "active" : ""}`}
-            onClick={() => togglePanel("pomodoro")}
-            title="Pomodoro Tracker"
-          >
-            <MdTimer />
-          </button>
-          <button
-            className={`toolbar-icon ${activePanel === "todo" ? "active" : ""}`}
-            onClick={() => togglePanel("todo")}
-            title="To-Do List"
-          >
-            <MdChecklist />
-          </button>
-          <button
-            className={`toolbar-icon ${activePanel === "screenTime" ? "active" : ""}`}
-            onClick={() => togglePanel("screenTime")}
-            title="Screen Time"
-          >
-            <MdAccessTimeFilled />
+            <MdSettings />
           </button>
         </div>
 
-        <StickyNotes visible={notesVisible} />
-        <Pomodoro visible={activePanel === "pomodoro"} onClose={() => setActivePanel(null)} />
-        <TodoList visible={activePanel === "todo"} onClose={() => setActivePanel(null)} />
-        {activePanel === "screenTime" && (
+        {settings.widgets.stickyNotes && <StickyNotes visible={notesVisible} />}
+        {settings.widgets.pomodoro && (
+          <Pomodoro visible={activePanel === "pomodoro"} onClose={() => setActivePanel(null)} />
+        )}
+        {settings.widgets.todo && (
+          <TodoList visible={activePanel === "todo"} onClose={() => setActivePanel(null)} />
+        )}
+        {settings.widgets.screenTime && activePanel === "screenTime" && (
           <ScreenTime onClose={() => setActivePanel(null)} className="active" />
         )}
+        <Settings visible={activePanel === "settings"} onClose={() => setActivePanel(null)} />
       </div>
     </>
   );
