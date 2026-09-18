@@ -22,7 +22,28 @@
     color: white;
     margin-top: 20px; /* Adjusted margin for the title */
   }
-  
+
+  .workspace-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .workspace-edit-toggle {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--od-border, rgba(255, 255, 255, 0.2));
+    color: white;
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-family: "Archivo", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .workspace-edit-toggle:hover {
+    background: var(--od-accent, #fb8500);
+  }
+
   .dock {
     display: flex; /* Horizontal layout */
     justify-content: center; /* Center the dock items */
@@ -41,6 +62,63 @@
   
   .link-item:hover {
     transform: scale(1.2); /* Scale up the item on hover */
+  }
+
+  .link-item.editing {
+    cursor: grab;
+    position: relative;
+  }
+
+  .link-item.editing:active {
+    cursor: grabbing;
+  }
+
+  .link-item.editing:hover {
+    transform: none;
+  }
+
+  .link-remove {
+    position: absolute;
+    top: -6px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    background: var(--od-danger, #e63946);
+    color: white;
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .add-link-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--od-radius-sm, 8px);
+    padding: 10px;
+  }
+
+  .add-link-form input {
+    width: 130px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-family: "Archivo", sans-serif;
+  }
+
+  .add-link-form button {
+    background: var(--od-accent, #fb8500);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
   }
   
   .link-item a {

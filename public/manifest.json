@@ -10,7 +10,7 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["tabs", "storage", "activeTab"],
+  "permissions": ["tabs", "storage", "activeTab", "alarms", "notifications"],
   "icons": {
     "48": "android-chrome-512x512.png"
   },

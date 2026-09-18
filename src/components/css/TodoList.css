@@ -1,0 +1,147 @@
+.todo-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  max-width: 85vw;
+  height: 100%;
+  background: var(--od-bg-panel);
+  backdrop-filter: blur(14px);
+  color: var(--od-text);
+  box-shadow: var(--od-shadow);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  font-family: var(--od-font);
+}
+
+.todo-panel.active {
+  transform: translateX(0);
+}
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.todo-header h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.todo-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.todo-form input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: var(--od-radius-sm);
+  border: 1px solid var(--od-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: var(--od-font);
+}
+
+.todo-form input::placeholder {
+  color: var(--od-text-muted);
+}
+
+.todo-form button {
+  background: var(--od-accent);
+  color: white;
+  border: none;
+  border-radius: var(--od-radius-sm);
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+.todo-form button:hover {
+  background: var(--od-accent-light);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--od-border);
+  gap: 8px;
+}
+
+.todo-list li label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-list li span {
+  overflow-wrap: anywhere;
+}
+
+.todo-list li.done span {
+  text-decoration: line-through;
+  color: var(--od-text-muted);
+}
+
+.todo-delete {
+  background: none;
+  border: none;
+  color: var(--od-text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-delete:hover {
+  color: var(--od-danger);
+}
+
+.todo-empty {
+  color: var(--od-text-muted);
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: none !important;
+}
+
+.todo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--od-text-muted);
+}
+
+.todo-footer button {
+  background: none;
+  border: none;
+  color: var(--od-accent-light);
+  cursor: pointer;
+  font-size: 13px;
+}

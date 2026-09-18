@@ -4,14 +4,18 @@ import BackgroundVideo from './components/BackgroundVideo.js';
 import Text from './components/Maintext.js';
 import Workspace from './components/workspace.js';
 import ScreenTime from './components/ScreenTime.js';
-import { MdAccessTimeFilled } from "react-icons/md";
+import TodoList from './components/TodoList.js';
+import Pomodoro from './components/Pomodoro.js';
+import StickyNotes from './components/StickyNotes.js';
+import { MdAccessTimeFilled, MdChecklist, MdTimer, MdStickyNote2 } from "react-icons/md";
 import icon from "./assets/android-chrome-512x512.png";
 
 function App() {
-  const [showScreenTime, setShowScreenTime] = useState(false);
+  const [activePanel, setActivePanel] = useState(null);
+  const [notesVisible, setNotesVisible] = useState(false);
 
-  const toggleScreenTime = () => {
-    setShowScreenTime(!showScreenTime);
+  const togglePanel = (panel) => {
+    setActivePanel((current) => (current === panel ? null : panel));
   };
 
   return (
@@ -27,17 +31,42 @@ function App() {
         <Text />
         <Workspace />
 
-        <MdAccessTimeFilled
-          className="screen-time-icon"
-          onClick={toggleScreenTime}
-        />
+        <div className="toolbar">
+          <button
+            className={`toolbar-icon ${notesVisible ? "active" : ""}`}
+            onClick={() => setNotesVisible((v) => !v)}
+            title="Sticky Notes"
+          >
+            <MdStickyNote2 />
+          </button>
+          <button
+            className={`toolbar-icon ${activePanel === "pomodoro" ? "active" : ""}`}
+            onClick={() => togglePanel("pomodoro")}
+            title="Pomodoro Tracker"
+          >
+            <MdTimer />
+          </button>
+          <button
+            className={`toolbar-icon ${activePanel === "todo" ? "active" : ""}`}
+            onClick={() => togglePanel("todo")}
+            title="To-Do List"
+          >
+            <MdChecklist />
+          </button>
+          <button
+            className={`toolbar-icon ${activePanel === "screenTime" ? "active" : ""}`}
+            onClick={() => togglePanel("screenTime")}
+            title="Screen Time"
+          >
+            <MdAccessTimeFilled />
+          </button>
+        </div>
 
-        {/* Conditionally render the ScreenTime component */}
-        {showScreenTime && (
-          <ScreenTime
-            onClose={toggleScreenTime}
-            className={showScreenTime ? 'active' : ''}
-          />
+        <StickyNotes visible={notesVisible} />
+        <Pomodoro visible={activePanel === "pomodoro"} onClose={() => setActivePanel(null)} />
+        <TodoList visible={activePanel === "todo"} onClose={() => setActivePanel(null)} />
+        {activePanel === "screenTime" && (
+          <ScreenTime onClose={() => setActivePanel(null)} className="active" />
         )}
       </div>
     </>
