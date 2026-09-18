@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>Focus mode</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Archivo", sans-serif;
+        background: linear-gradient(160deg, #ffb088 0%, #ff9f5a 28%, #ff7a59 52%, #f65c7a 78%, #e14e8c 100%);
+      }
+      .card {
+        width: 360px;
+        max-width: 88vw;
+        padding: 32px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(38px) saturate(180%);
+        -webkit-backdrop-filter: blur(38px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 26px 60px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        color: #1d1d1f;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+      p {
+        font-size: 14px;
+        color: #6e6e73;
+        margin: 0 0 22px;
+        line-height: 1.5;
+      }
+      .timer {
+        font-size: 44px;
+        font-weight: 200;
+        letter-spacing: -1px;
+        color: #ff7a45;
+        margin-bottom: 22px;
+      }
+      a.button {
+        display: inline-block;
+        padding: 10px 26px;
+        border-radius: 20px;
+        background: #ff7a45;
+        color: white;
+        text-decoration: none;
+        font-size: 13.5px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>You're in focus mode</h1>
+      <p id="message">This site is blocked while your Pomodoro focus session is running.</p>
+      <div class="timer" id="timer">--:--</div>
+      <a class="button" href="chrome://newtab">Back to New Tab</a>
+    </div>
+    <script>
+      function formatTime(ms) {
+        var totalSeconds = Math.max(0, Math.round(ms / 1000));
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds % 60;
+        return minutes + ":" + String(seconds).padStart(2, "0");
+      }
+
+      function render() {
+        if (typeof chrome === "undefined" || !chrome.storage) return;
+        chrome.storage.local.get(["orangedash_pomodoro"], function (result) {
+          var state = result.orangedash_pomodoro;
+          var messageEl = document.getElementById("message");
+          var timerEl = document.getElementById("timer");
+          if (!state || state.mode !== "focus" || !state.isRunning) {
+            messageEl.textContent = "Your focus session has ended - this site is available again.";
+            timerEl.textContent = "";
+            return;
+          }
+          var remaining = state.endTime ? state.endTime - Date.now() : state.remainingMs;
+          timerEl.textContent = formatTime(remaining);
+        });
+      }
+
+      render();
+      setInterval(render, 1000);
+    </script>
+  </body>
+</html>

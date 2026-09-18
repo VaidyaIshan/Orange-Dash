@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./css/Pomodoro.css";
 import { loadState, saveState } from "../utils/storage";
+import FocusBlocklist from "./FocusBlocklist";
 
 const STORAGE_KEY = "orangedash_pomodoro";
-const DEFAULT_DURATIONS = { focus: 25, short: 5, long: 15 };
+// Durations are stored in milliseconds (not minutes) so a duration set by
+// editing the timer directly - which can land on a non-round minute, like
+// 7:30 - doesn't get silently rounded and throw off the progress ring.
+const DEFAULT_DURATIONS_MS = { focus: 25 * 60000, short: 5 * 60000, long: 15 * 60000 };
 const LABELS = { focus: "Focus", short: "Short Break", long: "Long Break" };
+const MAX_MINUTES = 180;
 
 const hasRuntime = typeof chrome !== "undefined" && chrome.runtime?.sendMessage;
 
@@ -13,9 +18,9 @@ function defaultState() {
     mode: "focus",
     isRunning: false,
     endTime: null,
-    remainingMs: DEFAULT_DURATIONS.focus * 60000,
+    remainingMs: DEFAULT_DURATIONS_MS.focus,
     sessionsCompleted: 0,
-    durations: DEFAULT_DURATIONS,
+    durations: DEFAULT_DURATIONS_MS,
   };
 }
 
@@ -31,11 +36,31 @@ function formatTime(ms) {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
+// Accepts "MM:SS" or a bare number of minutes, like typing into the
+// display itself rather than a separate settings field.
+function parseTimeInput(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (trimmed.includes(":")) {
+    const [m, s] = trimmed.split(":");
+    const minutes = parseInt(m, 10) || 0;
+    const seconds = Math.min(59, parseInt(s, 10) || 0);
+    return { minutes: Math.min(MAX_MINUTES, Math.max(0, minutes)), seconds };
+  }
+  const minutes = parseInt(trimmed, 10);
+  if (Number.isNaN(minutes)) return null;
+  return { minutes: Math.min(MAX_MINUTES, Math.max(0, minutes)), seconds: 0 };
+}
+
 function Pomodoro({ visible, onClose }) {
   const [state, setState] = useState(defaultState());
   const [loaded, setLoaded] = useState(false);
   const [now, setNow] = useState(Date.now());
+  const [editingTime, setEditingTime] = useState(false);
+  const [editValue, setEditValue] = useState("");
+  const [blocklistOpen, setBlocklistOpen] = useState(false);
   const stateRef = useRef(state);
+  const editInputRef = useRef(null);
   stateRef.current = state;
 
   useEffect(() => {
@@ -68,9 +93,16 @@ function Pomodoro({ visible, onClose }) {
       sessionsCompleted,
       isRunning: false,
       endTime: null,
-      remainingMs: current.durations[nextMode] * 60000,
+      remainingMs: current.durations[nextMode],
     });
   }, [now]);
+
+  useEffect(() => {
+    if (editingTime && editInputRef.current) {
+      editInputRef.current.focus();
+      editInputRef.current.select();
+    }
+  }, [editingTime]);
 
   const scheduleAlarm = (mode, endTime) => {
     if (hasRuntime) chrome.runtime.sendMessage({ type: "POMODORO_SCHEDULE", mode, endTime });
@@ -98,7 +130,7 @@ function Pomodoro({ visible, onClose }) {
       ...prev,
       isRunning: false,
       endTime: null,
-      remainingMs: prev.durations[prev.mode] * 60000,
+      remainingMs: prev.durations[prev.mode],
     }));
   };
 
@@ -113,22 +145,52 @@ function Pomodoro({ visible, onClose }) {
       sessionsCompleted,
       isRunning: false,
       endTime: null,
-      remainingMs: prev.durations[nextMode] * 60000,
+      remainingMs: prev.durations[nextMode],
     }));
   };
 
-  const setDuration = (mode, minutes) => {
-    const clamped = Math.min(120, Math.max(1, minutes));
+  const switchMode = (mode) => {
+    if (mode === state.mode) return;
+    cancelAlarm(state.mode);
     setState((prev) => ({
       ...prev,
-      durations: { ...prev.durations, [mode]: clamped },
-      remainingMs:
-        prev.mode === mode && !prev.isRunning ? clamped * 60000 : prev.remainingMs,
+      mode,
+      isRunning: false,
+      endTime: null,
+      remainingMs: prev.durations[mode],
     }));
+  };
+
+  const startEditingTime = () => {
+    if (state.isRunning) return;
+    setEditValue(formatTime(state.remainingMs));
+    setEditingTime(true);
+  };
+
+  const commitEditingTime = () => {
+    if (!editingTime) return;
+    const parsed = parseTimeInput(editValue);
+    setEditingTime(false);
+    if (!parsed) return;
+    const totalMs = (parsed.minutes * 60 + parsed.seconds) * 1000;
+    if (totalMs <= 0) return;
+    setState((prev) => ({
+      ...prev,
+      remainingMs: totalMs,
+      durations: { ...prev.durations, [prev.mode]: totalMs },
+    }));
+  };
+
+  const handleEditKeyDown = (e) => {
+    if (e.key === "Enter") {
+      commitEditingTime();
+    } else if (e.key === "Escape") {
+      setEditingTime(false);
+    }
   };
 
   const remainingMs = state.isRunning && state.endTime ? Math.max(0, state.endTime - now) : state.remainingMs;
-  const totalMs = state.durations[state.mode] * 60000;
+  const totalMs = state.durations[state.mode];
   const progress = totalMs > 0 ? 1 - remainingMs / totalMs : 0;
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
@@ -144,9 +206,13 @@ function Pomodoro({ visible, onClose }) {
 
       <div className="pomodoro-modes">
         {Object.keys(LABELS).map((mode) => (
-          <span key={mode} className={`pomodoro-mode ${state.mode === mode ? "active" : ""}`}>
+          <button
+            key={mode}
+            className={`pomodoro-mode ${state.mode === mode ? "active" : ""}`}
+            onClick={() => switchMode(mode)}
+          >
             {LABELS[mode]}
-          </span>
+          </button>
         ))}
       </div>
 
@@ -162,7 +228,24 @@ function Pomodoro({ visible, onClose }) {
             strokeDashoffset={circumference * (1 - progress)}
           />
         </svg>
-        <div className="pomodoro-time">{formatTime(remainingMs)}</div>
+        {editingTime ? (
+          <input
+            ref={editInputRef}
+            className="pomodoro-time-input"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onBlur={commitEditingTime}
+            onKeyDown={handleEditKeyDown}
+          />
+        ) : (
+          <button
+            className={`pomodoro-time ${state.isRunning ? "locked" : ""}`}
+            onClick={startEditingTime}
+            title={state.isRunning ? "Pause to edit the time" : "Tap to set the time"}
+          >
+            {formatTime(remainingMs)}
+          </button>
+        )}
       </div>
 
       <div className="pomodoro-controls">
@@ -175,23 +258,15 @@ function Pomodoro({ visible, onClose }) {
         <button className="ghost-btn" onClick={skip}>Skip</button>
       </div>
 
-      <div className="pomodoro-settings">
-        {Object.keys(LABELS).map((mode) => (
-          <label key={mode}>
-            {LABELS[mode]}
-            <input
-              type="number"
-              min="1"
-              max="120"
-              value={state.durations[mode]}
-              onChange={(e) => setDuration(mode, parseInt(e.target.value, 10) || 1)}
-            />
-            min
-          </label>
-        ))}
+      <div className="pomodoro-footer">
+        <div className="pomodoro-sessions">Focus sessions completed: {state.sessionsCompleted}</div>
+        <div className="pomodoro-hint">
+          Tap Focus / Short Break / Long Break to switch, or tap the time to set it. A long break
+          follows automatically every 4th focus session.
+        </div>
       </div>
 
-      <div className="pomodoro-sessions">Sessions completed: {state.sessionsCompleted}</div>
+      <FocusBlocklist open={blocklistOpen} onToggleOpen={() => setBlocklistOpen((v) => !v)} />
     </div>
   );
 }

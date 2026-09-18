@@ -108,7 +108,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       endedMode === "focus" ? (state.sessionsCompleted || 0) + 1 : state.sessionsCompleted || 0;
     const nextMode =
       endedMode === "focus" ? (sessionsCompleted % 4 === 0 ? "long" : "short") : "focus";
-    const nextDurationMs = (state.durations?.[nextMode] || 25) * 60000;
+    const nextDurationMs = state.durations?.[nextMode] || 25 * 60000;
 
     const nextState = {
       ...state,
@@ -130,3 +130,65 @@ chrome.runtime.onMessage.addListener((message) => {
     chrome.alarms.clear(POMODORO_ALARM_PREFIX + message.mode);
   }
 });
+
+// --- Focus Mode site blocking ---
+// Only active while a Focus session is actually running (not during breaks,
+// not while paused). Redirecting a request requires host permission for the
+// blocked domain: the curated presets below are declared upfront in
+// manifest.json's host_permissions, and any custom domain the user adds is
+// granted at runtime via chrome.permissions.request (see FocusBlocklist.js).
+const BLOCKLIST_KEY = "orangedash_focus_blocklist";
+const PRESET_DOMAINS = {
+  youtube: ["youtube.com"],
+  instagram: ["instagram.com"],
+  facebook: ["facebook.com"],
+  twitterx: ["x.com", "twitter.com"],
+  reddit: ["reddit.com"],
+  tiktok: ["tiktok.com"],
+  netflix: ["netflix.com"],
+};
+
+function computeBlockedDomains(blocklist) {
+  const domains = [];
+  if (blocklist?.presets) {
+    for (const key of Object.keys(blocklist.presets)) {
+      if (blocklist.presets[key] && PRESET_DOMAINS[key]) domains.push(...PRESET_DOMAINS[key]);
+    }
+  }
+  if (Array.isArray(blocklist?.custom)) domains.push(...blocklist.custom);
+  return domains;
+}
+
+async function updateBlockingRules() {
+  const stored = await chrome.storage.local.get([POMODORO_KEY, BLOCKLIST_KEY]);
+  const pomodoro = stored[POMODORO_KEY];
+  const blocklist = stored[BLOCKLIST_KEY];
+  const shouldBlock = Boolean(blocklist?.enabled && pomodoro?.mode === "focus" && pomodoro?.isRunning);
+
+  const existing = await chrome.declarativeNetRequest.getDynamicRules();
+  const removeRuleIds = existing.map((rule) => rule.id);
+  const addRules = [];
+
+  if (shouldBlock) {
+    const domains = computeBlockedDomains(blocklist);
+    domains.forEach((domain, index) => {
+      addRules.push({
+        id: index + 1,
+        priority: 1,
+        action: { type: "redirect", redirect: { extensionPath: "/focus.html" } },
+        condition: { urlFilter: `||${domain}^`, resourceTypes: ["main_frame"] },
+      });
+    });
+  }
+
+  await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds, addRules });
+}
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area !== "local") return;
+  if (changes[POMODORO_KEY] || changes[BLOCKLIST_KEY]) {
+    updateBlockingRules();
+  }
+});
+
+updateBlockingRules();

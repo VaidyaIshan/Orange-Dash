@@ -33,12 +33,25 @@
   font-size: 12.5px;
   font-weight: 600;
   color: var(--od-text-secondary);
+  border: none;
+  background: transparent;
+  font-family: var(--od-font);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.pomodoro-mode:hover {
+  color: var(--od-text);
 }
 
 .pomodoro-mode.active {
   background: #ffffff;
   color: var(--od-accent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.pomodoro-mode.active:hover {
+  color: var(--od-accent);
 }
 
 .pomodoro-ring-wrapper {
@@ -64,7 +77,8 @@
   transition: stroke-dashoffset 1s linear;
 }
 
-.pomodoro-time {
+.pomodoro-time,
+.pomodoro-time-input {
   position: absolute;
   inset: 0;
   display: flex;
@@ -74,46 +88,174 @@
   font-weight: 200;
   color: var(--od-text);
   letter-spacing: -1px;
+  font-family: var(--od-font);
+}
+
+.pomodoro-time {
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+}
+
+.pomodoro-time:hover {
+  background: var(--od-fill);
+}
+
+.pomodoro-time.locked {
+  cursor: default;
+}
+
+.pomodoro-time.locked:hover {
+  background: none;
+}
+
+.pomodoro-time-input {
+  width: 140px;
+  height: 60px;
+  margin: 0 auto;
+  border: 2px solid var(--od-accent);
+  border-radius: 16px;
+  text-align: center;
+  background: #ffffff;
+  outline: none;
+  padding: 0;
 }
 
 .pomodoro-controls {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
-.pomodoro-settings {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.pomodoro-footer {
   border-top: 1px solid var(--od-divider);
-  padding-top: 15px;
-  font-size: 12.5px;
-  color: var(--od-text-secondary);
-}
-
-.pomodoro-settings label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.pomodoro-settings input {
-  width: 52px;
-  padding: 6px 4px;
-  border-radius: 8px;
-  border: 1px solid var(--od-field-border);
-  background: var(--od-field-bg);
-  color: var(--od-text);
+  padding-top: 14px;
   text-align: center;
-  font-size: 12.5px;
 }
 
 .pomodoro-sessions {
-  text-align: center;
-  margin-top: 12px;
-  font-size: 11.5px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--od-text-secondary);
+  margin-bottom: 6px;
+}
+
+.pomodoro-hint {
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--od-text-muted);
+}
+
+.focus-blocklist {
+  border-top: 1px solid var(--od-divider);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.focus-blocklist-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--od-font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text);
+  cursor: pointer;
+}
+
+.focus-blocklist-body {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.focus-blocklist-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.focus-blocklist-chip {
+  border: 1px solid var(--od-field-border);
+  background: var(--od-field-bg);
+  color: var(--od-text-secondary);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--od-font);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.focus-blocklist-chip.selected {
+  background: var(--od-accent);
+  border-color: var(--od-accent);
+  color: white;
+}
+
+.focus-blocklist-custom-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.focus-blocklist-custom-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--od-text);
+  padding: 4px 0;
+}
+
+.focus-blocklist-custom-list button {
+  background: none;
+  border: none;
+  color: var(--od-text-muted);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.focus-blocklist-custom-list button:hover {
+  color: var(--od-danger);
+}
+
+.focus-blocklist-form {
+  display: flex;
+  gap: 8px;
+}
+
+.focus-blocklist-form input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: var(--od-radius-sm);
+  border: 1px solid var(--od-field-border);
+  background: var(--od-field-bg);
+  color: var(--od-text);
+  font-family: var(--od-font);
+  font-size: 12.5px;
+}
+
+.focus-blocklist-form .ghost-btn {
+  padding: 8px 14px;
+  font-size: 12.5px;
+}
+
+.focus-blocklist-error {
+  margin: 0;
+  font-size: 11px;
+  color: var(--od-danger);
 }

@@ -119,36 +119,6 @@
   cursor: pointer;
 }
 
-.od-toggle {
-  width: 40px;
-  height: 22px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.16);
-  position: relative;
-  flex-shrink: 0;
-  transition: background 0.2s ease;
-}
-
-.od-toggle.on {
-  background: var(--od-accent);
-}
-
-.od-toggle-knob {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease;
-}
-
-.od-toggle.on .od-toggle-knob {
-  transform: translateX(18px);
-}
-
 .settings-image-row {
   display: flex;
   gap: 8px;

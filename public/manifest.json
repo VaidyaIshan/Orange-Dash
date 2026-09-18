@@ -10,7 +10,18 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["tabs", "storage", "activeTab", "alarms", "notifications"],
+  "permissions": ["tabs", "storage", "activeTab", "alarms", "notifications", "declarativeNetRequest"],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.instagram.com/*",
+    "*://*.facebook.com/*",
+    "*://*.x.com/*",
+    "*://*.twitter.com/*",
+    "*://*.reddit.com/*",
+    "*://*.tiktok.com/*",
+    "*://*.netflix.com/*"
+  ],
+  "optional_host_permissions": ["<all_urls>"],
   "icons": {
     "48": "android-chrome-512x512.png"
   },
