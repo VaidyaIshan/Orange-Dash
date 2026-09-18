@@ -128,56 +128,63 @@
 
 .link-remove {
   position: absolute;
-  top: 0;
-  right: 4px;
-  width: 18px;
-  height: 18px;
+  top: -2px;
+  right: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   border: none;
-  background: var(--od-danger);
-  color: white;
-  font-size: 10px;
-  line-height: 1;
+  background: #ff5f57;
   cursor: pointer;
   z-index: 2;
+  padding: 0;
+  transition: filter 0.15s ease;
+}
+
+.link-remove:hover {
+  filter: brightness(0.9);
+}
+
+.workspace-edit-panel {
+  width: 100%;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .add-link-form {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: auto;
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: var(--od-radius-sm);
-  padding: 8px;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
 }
 
 .add-link-form input {
-  width: 120px;
-  padding: 6px 8px;
-  border-radius: 6px;
+  width: 140px;
+  padding: 8px 12px;
+  border-radius: var(--od-radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.3);
   background: rgba(0, 0, 0, 0.15);
   color: white;
   font-family: var(--od-font);
-  font-size: 12px;
+  font-size: 12.5px;
 }
 
 .add-link-form input::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.add-link-form button {
-  background: var(--od-accent);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
+.add-link-form .pill-btn {
+  padding: 0 20px;
+  font-size: 12.5px;
 }
 
-.add-link-form button:hover {
-  filter: brightness(1.08);
+.workspace-edit-hint {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
 }

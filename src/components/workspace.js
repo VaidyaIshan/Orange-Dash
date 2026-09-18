@@ -133,9 +133,11 @@ function Workspace() {
             onDragEnd={handleDragEnd}
           >
             {editing && (
-              <button className="link-remove" onClick={() => removeLink(link.id)}>
-                ✖
-              </button>
+              <button
+                className="link-remove"
+                onClick={() => removeLink(link.id)}
+                aria-label={`Remove ${link.name}`}
+              />
             )}
             <a href={link.url} target="_blank" rel="noopener noreferrer">
               <span className="link-icon-tile">
@@ -145,9 +147,11 @@ function Workspace() {
             </a>
           </div>
         ))}
+      </div>
 
-        {editing && (
-          <form className="link-item add-link-form" onSubmit={addLink}>
+      {editing && (
+        <div className="workspace-edit-panel">
+          <form className="add-link-form" onSubmit={addLink}>
             <input
               type="text"
               placeholder="Name"
@@ -160,10 +164,11 @@ function Workspace() {
               value={form.url}
               onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
             />
-            <button type="submit">Add</button>
+            <button type="submit" className="pill-btn">Add</button>
           </form>
-        )}
-      </div>
+          <p className="workspace-edit-hint">Drag icons to reorder, or tap ✕ to remove one.</p>
+        </div>
+      )}
     </div>
   );
 }
