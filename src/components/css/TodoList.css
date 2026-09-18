@@ -1,79 +1,49 @@
 .todo-panel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 320px;
-  max-width: 85vw;
-  height: 100%;
-  background: var(--od-bg-panel);
-  backdrop-filter: blur(14px);
-  color: var(--od-text);
-  box-shadow: var(--od-shadow);
+  right: 110px;
+  top: 80px;
+  width: 340px;
+  max-width: calc(100vw - 150px);
+  max-height: calc(100vh - 120px);
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  box-sizing: border-box;
-  z-index: 1000;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
-  font-family: var(--od-font);
+  transform: translateX(24px) scale(0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
 }
 
 .todo-panel.active {
-  transform: translateX(0);
-}
-
-.todo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.todo-header h2 {
-  margin: 0;
-  font-weight: 400;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .todo-form {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .todo-form input {
   flex: 1;
-  padding: 10px 12px;
+  padding: 10px 13px;
   border-radius: var(--od-radius-sm);
-  border: 1px solid var(--od-border);
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+  border: 1px solid var(--od-field-border);
+  background: var(--od-field-bg);
+  color: var(--od-text);
   font-family: var(--od-font);
+  font-size: 13.5px;
 }
 
 .todo-form input::placeholder {
   color: var(--od-text-muted);
 }
 
-.todo-form button {
-  background: var(--od-accent);
-  color: white;
-  border: none;
+.todo-form .pill-btn {
+  padding: 0 18px;
   border-radius: var(--od-radius-sm);
-  padding: 0 16px;
-  cursor: pointer;
-}
-
-.todo-form button:hover {
-  background: var(--od-accent-light);
 }
 
 .todo-list {
@@ -82,15 +52,21 @@
   margin: 0;
   overflow-y: auto;
   flex: 1;
+  min-height: 60px;
 }
 
 .todo-list li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 4px;
-  border-bottom: 1px solid var(--od-border);
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--od-divider);
   gap: 8px;
+  border-radius: 8px;
+  transition: background 0.12s ease;
+}
+
+.todo-list li:hover {
+  background: rgba(0, 0, 0, 0.025);
 }
 
 .todo-list li label {
@@ -99,10 +75,48 @@
   gap: 10px;
   flex: 1;
   min-width: 0;
+  cursor: pointer;
+}
+
+.todo-list li input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.6px solid var(--od-field-border);
+  background: transparent;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.todo-list li input[type="checkbox"]::after {
+  content: "";
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s ease;
+  margin-top: -2px;
+}
+
+.todo-list li input[type="checkbox"]:checked {
+  border-color: var(--od-accent);
+  background: var(--od-accent);
+}
+
+.todo-list li input[type="checkbox"]:checked::after {
+  transform: rotate(45deg) scale(1);
 }
 
 .todo-list li span {
   overflow-wrap: anywhere;
+  font-size: 13.5px;
+  color: var(--od-text);
 }
 
 .todo-list li.done span {
@@ -116,6 +130,12 @@
   color: var(--od-text-muted);
   cursor: pointer;
   flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.todo-list li:hover .todo-delete {
+  opacity: 1;
 }
 
 .todo-delete:hover {
@@ -125,23 +145,29 @@
 .todo-empty {
   color: var(--od-text-muted);
   text-align: center;
-  padding: 20px 0;
+  padding: 18px 4px;
   border-bottom: none !important;
+  font-size: 13px;
 }
 
 .todo-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 12px;
-  font-size: 13px;
+  margin-top: 8px;
+  padding-top: 13px;
+  border-top: 1px solid var(--od-divider);
+  font-size: 11.5px;
   color: var(--od-text-muted);
+  flex-shrink: 0;
 }
 
-.todo-footer button {
+.todo-clear {
   background: none;
   border: none;
-  color: var(--od-accent-light);
+  color: var(--od-accent);
   cursor: pointer;
-  font-size: 13px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 0;
 }

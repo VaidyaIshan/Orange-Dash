@@ -1,145 +1,183 @@
 .workspace {
-    position: fixed;
-    bottom: -100%; /* Initially hidden at the bottom */
-    left: 0;
-    width: 100%;
-    height: 30%; /* Height is half the screen */
-    background-color: #00296b;/* Dark background with transparency */
-    backdrop-filter: blur(10px); /* Blur effect */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center; /* Center items */
-    transition: bottom 0.5s ease-out;
-    box-shadow: #00296b; /* Shadow for contrast */
-  }
-  
-  .workspace.active {
-    bottom: 0; /* Slide up to the screen */
-  }
-  
-  .maintitle {
-    color: white;
-    margin-top: 20px; /* Adjusted margin for the title */
-  }
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  max-width: 94vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 28px 18px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 26px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+  transform: translate(-50%, calc(100% + 40px));
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 900;
+}
 
-  .workspace-title-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+.workspace.active {
+  transform: translate(-50%, 0);
+}
 
-  .workspace-edit-toggle {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid var(--od-border, rgba(255, 255, 255, 0.2));
-    color: white;
-    border-radius: 999px;
-    padding: 4px 14px;
-    font-family: "Archivo", sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-  }
+.workspace-title-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
 
-  .workspace-edit-toggle:hover {
-    background: var(--od-accent, #fb8500);
-  }
+.workspace-title {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
 
-  .dock {
-    display: flex; /* Horizontal layout */
-    justify-content: center; /* Center the dock items */
-    align-items: center; /* Center vertically */
-    width: 100%;
-    padding: 10px 0; /* Spacing above and below the dock */
-  }
-  
-  .link-item {
-    display: flex;
-    flex-direction: column; /* Stack icon and name */
-    align-items: center; /* Center icon and name */
-    margin: 0 10px; /* Margin between dock items */
-    transition: transform 0.3s ease; /* Smooth transition for scaling */
-  }
-  
-  .link-item:hover {
-    transform: scale(1.2); /* Scale up the item on hover */
-  }
+.workspace-edit-toggle {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-family: var(--od-font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease;
+}
 
-  .link-item.editing {
-    cursor: grab;
-    position: relative;
-  }
+.workspace-edit-toggle:hover {
+  filter: brightness(1.15);
+}
 
-  .link-item.editing:active {
-    cursor: grabbing;
-  }
+.dock {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 6px;
+}
 
-  .link-item.editing:hover {
-    transform: none;
-  }
+.link-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 60px;
+  padding-top: 6px;
+}
 
-  .link-remove {
-    position: absolute;
-    top: -6px;
-    right: 2px;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: none;
-    background: var(--od-danger, #e63946);
-    color: white;
-    font-size: 10px;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 2;
-  }
+.link-item a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
 
-  .add-link-form {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: var(--od-radius-sm, 8px);
-    padding: 10px;
-  }
+.link-icon-tile {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.18s ease;
+}
 
-  .add-link-form input {
-    width: 130px;
-    padding: 6px 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(0, 0, 0, 0.2);
-    color: white;
-    font-family: "Archivo", sans-serif;
-  }
+.link-item:hover .link-icon-tile {
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
 
-  .add-link-form button {
-    background: var(--od-accent, #fb8500);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 6px;
-    cursor: pointer;
-  }
-  
-  .link-item a {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column; /* Stack icon and name */
-    align-items: center; /* Center icon and name */
-  }
-  
-  .link-icon {
-    width: 50px; /* Icon size */
-    height: 50px; /* Icon size */
-    margin-bottom: 5px; /* Space between icon and name */
-    transition: transform 0.3s ease; /* Smooth transition for icon scaling */
-  }
-  
-  .link-item:hover .link-icon {
-    transform: scale(1.2); /* Scale up the icon on hover */
-  }
-  
-  .link-name {
-    font-size: 14px; /* Adjust font size as needed */
-  }
+.link-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.link-name {
+  font-size: 11px;
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.link-item.editing {
+  cursor: grab;
+  position: relative;
+}
+
+.link-item.editing:active {
+  cursor: grabbing;
+}
+
+.link-item.editing:hover .link-icon-tile {
+  transform: none;
+}
+
+.link-remove {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: var(--od-danger);
+  color: white;
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.add-link-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: auto;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: var(--od-radius-sm);
+  padding: 8px;
+}
+
+.add-link-form input {
+  width: 120px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.15);
+  color: white;
+  font-family: var(--od-font);
+  font-size: 12px;
+}
+
+.add-link-form input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.add-link-form button {
+  background: var(--od-accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-link-form button:hover {
+  filter: brightness(1.08);
+}

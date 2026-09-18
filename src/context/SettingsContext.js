@@ -3,13 +3,15 @@ import { loadState, saveState } from "../utils/storage";
 
 const STORAGE_KEY = "orangedash_settings";
 
+export const ACCENT_PRESETS = ["#FF7A45", "#FF9500", "#0A84FF", "#34C759", "#AF52DE", "#FF375F"];
+
 export const DEFAULT_SETTINGS = {
-  accentColor: "#fb8500",
+  accentColor: "#FF7A45",
   background: {
     type: "video", // 'video' | 'color' | 'gradient' | 'image' | 'none'
-    color: "#00296b",
-    gradientFrom: "#00296b",
-    gradientTo: "#003566",
+    color: "#FF7A59",
+    gradientFrom: "#FFB088",
+    gradientTo: "#E14E8C",
     imageDataUrl: null,
   },
   header: {

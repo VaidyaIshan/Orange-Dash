@@ -134,8 +134,8 @@ function Pomodoro({ visible, onClose }) {
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <div className={`pomodoro-panel ${visible ? "active" : ""}`}>
-      <div className="pomodoro-header">
+    <div className={`od-panel pomodoro-panel ${visible ? "active" : ""}`}>
+      <div className="od-panel-header">
         <h2>Pomodoro</h2>
         <button className="close-btn" onClick={onClose}>
           ✖
@@ -167,12 +167,12 @@ function Pomodoro({ visible, onClose }) {
 
       <div className="pomodoro-controls">
         {state.isRunning ? (
-          <button onClick={pause}>Pause</button>
+          <button className="pill-btn" onClick={pause}>Pause</button>
         ) : (
-          <button onClick={start}>Start</button>
+          <button className="pill-btn" onClick={start}>Start</button>
         )}
-        <button onClick={reset}>Reset</button>
-        <button onClick={skip}>Skip</button>
+        <button className="ghost-btn" onClick={reset}>Reset</button>
+        <button className="ghost-btn" onClick={skip}>Skip</button>
       </div>
 
       <div className="pomodoro-settings">

@@ -3,7 +3,7 @@ import "./css/StickyNotes.css";
 import { loadState, saveState } from "../utils/storage";
 
 const STORAGE_KEY = "orangedash_sticky_notes";
-const COLORS = ["#ffef9f", "#ffb3c6", "#a0e7e5", "#b9fbc0", "#d0bfff", "#ffd6a5"];
+const COLORS = ["#FFE8A3", "#FFC1CC", "#B8E8FF", "#C3F0CA", "#D8C7F5", "#FFD4B8"];
 
 function createNote(offset = 0) {
   return {
@@ -92,6 +92,13 @@ function StickyNotes({ visible }) {
           onMouseDown={() => bringToFront(note.id)}
         >
           <div className="sticky-note-header" onMouseDown={(e) => onHeaderMouseDown(e, note)}>
+            <button
+              className="sticky-note-delete"
+              onClick={() => deleteNote(note.id)}
+              aria-label="Close note"
+            />
+            <span className="sticky-note-dot sticky-note-dot-yellow" />
+            <span className="sticky-note-dot sticky-note-dot-green" />
             <div className="sticky-note-colors">
               {COLORS.map((color) => (
                 <button
@@ -103,9 +110,6 @@ function StickyNotes({ visible }) {
                 />
               ))}
             </div>
-            <button className="sticky-note-delete" onClick={() => deleteNote(note.id)}>
-              ✖
-            </button>
           </div>
           <textarea
             className="sticky-note-body"

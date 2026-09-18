@@ -39,8 +39,8 @@ function ScreenTime({ onClose, className }) {
   };
 
   return (
-    <div className={`screen-time-window ${className}`}>
-      <div className="screen-time-header">
+    <div className={`od-panel screen-time-window ${className}`}>
+      <div className="od-panel-header">
         <h2>Screen Time</h2>
         <button className="close-btn" onClick={onClose}>
           ✖
@@ -78,7 +78,7 @@ function ScreenTime({ onClose, className }) {
       </ul>
 
       {sites.length > 0 && (
-        <button className="screen-time-reset" onClick={resetData}>
+        <button className="ghost-btn screen-time-reset" onClick={resetData}>
           Reset data
         </button>
       )}

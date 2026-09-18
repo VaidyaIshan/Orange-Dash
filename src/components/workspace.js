@@ -116,7 +116,7 @@ function Workspace() {
   return (
     <div className={`workspace ${isHovered ? "active" : ""}`}>
       <div className="workspace-title-row">
-        <h1 className="maintitle">Quick Access</h1>
+        <h1 className="workspace-title">Quick Access</h1>
         <button className="workspace-edit-toggle" onClick={() => setEditing((v) => !v)}>
           {editing ? "Done" : "Edit"}
         </button>
@@ -138,7 +138,9 @@ function Workspace() {
               </button>
             )}
             <a href={link.url} target="_blank" rel="noopener noreferrer">
-              <img src={iconSrc(link)} alt={`${link.name} icon`} className="link-icon" />
+              <span className="link-icon-tile">
+                <img src={iconSrc(link)} alt={`${link.name} icon`} className="link-icon" />
+              </span>
               <span className="link-name">{link.name}</span>
             </a>
           </div>

@@ -1,15 +1,131 @@
 :root {
-  --od-bg-panel: rgba(0, 30, 80, 0.88);
-  --od-bg-panel-solid: #00296b;
-  --od-bg-elevated: rgba(0, 53, 102, 0.95);
-  --od-border: rgba(255, 255, 255, 0.12);
-  --od-text: #ffffff;
-  --od-text-muted: rgba(255, 255, 255, 0.65);
-  --od-accent: #fb8500;
-  --od-accent-light: #ffb703;
-  --od-danger: #e63946;
-  --od-radius: 14px;
-  --od-radius-sm: 8px;
-  --od-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
-  --od-font: "Archivo", sans-serif;
+  /* Frosted-glass light panels, inspired by the Apple-Edition design
+     reference — panels sit on top of any background (video, photo,
+     color, gradient) so their surface is a translucent white blur with
+     dark text, rather than a fixed dark card. */
+  --od-panel-bg: rgba(255, 255, 255, 0.72);
+  --od-panel-blur: blur(38px) saturate(180%);
+  --od-panel-border: rgba(255, 255, 255, 0.6);
+  --od-panel-shadow: 0 26px 60px rgba(0, 0, 0, 0.3);
+
+  --od-text: #1d1d1f;
+  --od-text-secondary: #6e6e73;
+  --od-text-muted: #8e8e93;
+
+  --od-fill: rgba(0, 0, 0, 0.06);
+  --od-fill-hover: rgba(0, 0, 0, 0.09);
+  --od-field-bg: rgba(0, 0, 0, 0.03);
+  --od-field-border: rgba(0, 0, 0, 0.1);
+  --od-divider: rgba(0, 0, 0, 0.08);
+
+  --od-accent: #ff7a45;
+  --od-accent-light: #ff9f6b;
+  --od-danger: #ff3b30;
+
+  --od-radius: 22px;
+  --od-radius-sm: 10px;
+  --od-shadow: 0 26px 60px rgba(0, 0, 0, 0.3);
+
+  /* Dock: the always-visible toolbar of round icon buttons stays a
+     translucent glass chip regardless of theme, since it floats
+     directly over the background rather than over a panel. */
+  --od-dock-bg: rgba(255, 255, 255, 0.15);
+  --od-dock-bg-active: rgba(255, 255, 255, 0.4);
+  --od-dock-border: rgba(255, 255, 255, 0.38);
+
+  --od-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Archivo", sans-serif;
+}
+
+/* Shared panel chrome so every floating card (Pomodoro, To-Do, Screen
+   Time, Settings) reads as one consistent design language. */
+.od-panel {
+  position: fixed;
+  background: var(--od-panel-bg);
+  backdrop-filter: var(--od-panel-blur);
+  -webkit-backdrop-filter: var(--od-panel-blur);
+  border: 1px solid var(--od-panel-border);
+  border-radius: var(--od-radius);
+  box-shadow: var(--od-panel-shadow);
+  color: var(--od-text);
+  font-family: var(--od-font);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.od-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.od-panel-header h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--od-text);
+}
+
+.close-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--od-fill);
+  border: none;
+  color: var(--od-text);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background: var(--od-fill-hover);
+}
+
+.pill-btn {
+  background: var(--od-accent);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 24px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: var(--od-font);
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.pill-btn:hover {
+  filter: brightness(1.08);
+}
+
+.pill-btn:active {
+  transform: scale(0.97);
+}
+
+.ghost-btn {
+  background: var(--od-fill);
+  color: var(--od-text);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: var(--od-font);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.ghost-btn:hover {
+  background: var(--od-fill-hover);
+}
+
+.ghost-btn:active {
+  transform: scale(0.97);
 }

@@ -48,8 +48,8 @@ function TodoList({ visible, onClose }) {
   const remaining = tasks.filter((t) => !t.done).length;
 
   return (
-    <div className={`todo-panel ${visible ? "active" : ""}`}>
-      <div className="todo-header">
+    <div className={`od-panel todo-panel ${visible ? "active" : ""}`}>
+      <div className="od-panel-header">
         <h2>To-Do List</h2>
         <button className="close-btn" onClick={onClose}>
           ✖
@@ -63,7 +63,7 @@ function TodoList({ visible, onClose }) {
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Add a task..."
         />
-        <button type="submit">Add</button>
+        <button type="submit" className="pill-btn">Add</button>
       </form>
 
       <ul className="todo-list">
@@ -87,7 +87,7 @@ function TodoList({ visible, onClose }) {
 
       <div className="todo-footer">
         <span>{remaining} remaining</span>
-        <button onClick={clearCompleted}>Clear completed</button>
+        <button className="todo-clear" onClick={clearCompleted}>Clear completed</button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import "./css/Settings.css";
-import { useSettings } from "../context/SettingsContext";
+import { useSettings, ACCENT_PRESETS } from "../context/SettingsContext";
 
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 
@@ -34,8 +34,8 @@ function Settings({ visible, onClose }) {
   };
 
   return (
-    <div className={`settings-panel ${visible ? "active" : ""}`}>
-      <div className="settings-header">
+    <div className={`od-panel settings-panel ${visible ? "active" : ""}`}>
+      <div className="od-panel-header">
         <h2>Settings</h2>
         <button className="close-btn" onClick={onClose}>
           ✖
@@ -46,14 +46,27 @@ function Settings({ visible, onClose }) {
         <section className="settings-section">
           <h3>Appearance</h3>
 
-          <label className="od-field">
+          <div className="od-field">
             <span>Accent color</span>
-            <input
-              type="color"
-              value={settings.accentColor}
-              onChange={(e) => updateSettings({ accentColor: e.target.value })}
-            />
-          </label>
+            <div className="settings-accent-row">
+              <div className="settings-swatches">
+                {ACCENT_PRESETS.map((color) => (
+                  <button
+                    key={color}
+                    className={`settings-swatch ${settings.accentColor.toLowerCase() === color.toLowerCase() ? "selected" : ""}`}
+                    style={{ background: color }}
+                    onClick={() => updateSettings({ accentColor: color })}
+                    aria-label={`Use accent ${color}`}
+                  />
+                ))}
+              </div>
+              <input
+                type="color"
+                value={settings.accentColor}
+                onChange={(e) => updateSettings({ accentColor: e.target.value })}
+              />
+            </div>
+          </div>
 
           <label className="od-field">
             <span>Background</span>
@@ -105,10 +118,12 @@ function Settings({ visible, onClose }) {
             <div className="od-field">
               <span>Custom image</span>
               <div className="settings-image-row">
-                <button onClick={() => fileInputRef.current?.click()}>Upload image</button>
+                <button className="pill-btn" onClick={() => fileInputRef.current?.click()}>
+                  Upload image
+                </button>
                 {settings.background.imageDataUrl && (
                   <button
-                    className="settings-secondary"
+                    className="ghost-btn"
                     onClick={() => updateSettings({ background: { imageDataUrl: null } })}
                   >
                     Remove
@@ -206,7 +221,7 @@ function Settings({ visible, onClose }) {
           />
         </section>
 
-        <button className="settings-reset" onClick={resetSettings}>
+        <button className="ghost-btn settings-reset" onClick={resetSettings}>
           Reset to defaults
         </button>
       </div>
