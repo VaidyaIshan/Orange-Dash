@@ -219,6 +219,11 @@ function Settings({ visible, onClose }) {
             checked={settings.widgets.screenTime}
             onChange={(v) => updateSettings({ widgets: { screenTime: v } })}
           />
+          <Toggle
+            label="Tab Spaces"
+            checked={settings.widgets.tabSpaces}
+            onChange={(v) => updateSettings({ widgets: { tabSpaces: v } })}
+          />
         </section>
 
         <button className="ghost-btn settings-reset" onClick={resetSettings}>

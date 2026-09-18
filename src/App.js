@@ -8,6 +8,7 @@ import TodoList from './components/TodoList.js';
 import Pomodoro from './components/Pomodoro.js';
 import StickyNotes from './components/StickyNotes.js';
 import Settings from './components/Settings.js';
+import TabSpaces from './components/TabSpaces.js';
 import { useSettings } from './context/SettingsContext';
 import {
   MdAccessTimeFilled,
@@ -15,6 +16,7 @@ import {
   MdTimer,
   MdStickyNote2,
   MdSettings,
+  MdWorkspaces,
 } from "react-icons/md";
 import icon from "./assets/android-chrome-512x512.png";
 
@@ -75,6 +77,15 @@ function App() {
               <MdAccessTimeFilled />
             </button>
           )}
+          {settings.widgets.tabSpaces && (
+            <button
+              className={`toolbar-icon ${activePanel === "tabSpaces" ? "active" : ""}`}
+              onClick={() => togglePanel("tabSpaces")}
+              title="Tab Spaces"
+            >
+              <MdWorkspaces />
+            </button>
+          )}
           <button
             className={`toolbar-icon ${activePanel === "settings" ? "active" : ""}`}
             onClick={() => togglePanel("settings")}
@@ -93,6 +104,9 @@ function App() {
         )}
         {settings.widgets.screenTime && activePanel === "screenTime" && (
           <ScreenTime onClose={() => setActivePanel(null)} className="active" />
+        )}
+        {settings.widgets.tabSpaces && (
+          <TabSpaces visible={activePanel === "tabSpaces"} onClose={() => setActivePanel(null)} />
         )}
         <Settings visible={activePanel === "settings"} onClose={() => setActivePanel(null)} />
       </div>

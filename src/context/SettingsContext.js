@@ -31,6 +31,7 @@ export const DEFAULT_SETTINGS = {
     pomodoro: true,
     todo: true,
     screenTime: true,
+    tabSpaces: true,
   },
 };
 

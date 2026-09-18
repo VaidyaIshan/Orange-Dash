@@ -1,0 +1,116 @@
+.tabspaces-panel {
+  right: 110px;
+  top: 80px;
+  width: 340px;
+  max-width: calc(100vw - 150px);
+  max-height: calc(100vh - 120px);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(24px) scale(0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+.tabspaces-panel.active {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tabspaces-hint {
+  margin: -6px 0 14px;
+  font-size: 12.5px;
+  color: var(--od-text-muted);
+}
+
+.tabspaces-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 40px;
+}
+
+.tabspaces-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--od-divider);
+}
+
+.tabspaces-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--od-text);
+}
+
+.tabspaces-item-count {
+  font-size: 11.5px;
+  color: var(--od-text-muted);
+}
+
+.tabspaces-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tabspaces-item-actions .pill-btn {
+  padding: 7px 14px;
+  font-size: 12.5px;
+}
+
+.tabspaces-delete {
+  background: none;
+  border: none;
+  color: var(--od-text-muted);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.tabspaces-delete:hover {
+  color: var(--od-danger);
+}
+
+.tabspaces-empty {
+  color: var(--od-text-muted);
+  text-align: center;
+  padding: 18px 4px;
+  font-size: 13px;
+}
+
+.tabspaces-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--od-divider);
+  padding-top: 14px;
+  flex-shrink: 0;
+}
+
+.tabspaces-form input,
+.tabspaces-form textarea {
+  padding: 9px 12px;
+  border-radius: var(--od-radius-sm);
+  border: 1px solid var(--od-field-border);
+  background: var(--od-field-bg);
+  color: var(--od-text);
+  font-family: var(--od-font);
+  font-size: 13px;
+  resize: vertical;
+}
+
+.tabspaces-form textarea {
+  min-height: 60px;
+}
+
+.tabspaces-form input::placeholder,
+.tabspaces-form textarea::placeholder {
+  color: var(--od-text-muted);
+}
