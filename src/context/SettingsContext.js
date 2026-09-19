@@ -5,8 +5,18 @@ const STORAGE_KEY = "orangedash_settings";
 
 export const ACCENT_PRESETS = ["#FF7A45", "#FF9500", "#0A84FF", "#34C759", "#AF52DE", "#FF375F"];
 
+export const FONT_OPTIONS = [
+  { label: "Archivo (Default)", value: "'Archivo', sans-serif" },
+  { label: "System Default", value: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" },
+  { label: "Inter", value: "'Inter', sans-serif" },
+  { label: "Poppins", value: "'Poppins', sans-serif" },
+  { label: "Georgia (Serif)", value: "Georgia, 'Times New Roman', serif" },
+  { label: "Monospace", value: "'SF Mono', Menlo, Consolas, monospace" },
+];
+
 export const DEFAULT_SETTINGS = {
   accentColor: "#FF7A45",
+  fontFamily: FONT_OPTIONS[0].value,
   background: {
     type: "video", // 'video' | 'color' | 'gradient' | 'image' | 'none'
     color: "#FF7A59",
@@ -96,6 +106,10 @@ export function SettingsProvider({ children }) {
     document.documentElement.style.setProperty("--od-accent", settings.accentColor);
     document.documentElement.style.setProperty("--od-accent-light", lighten(settings.accentColor, 0.22));
   }, [settings.accentColor]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--od-font", settings.fontFamily);
+  }, [settings.fontFamily]);
 
   const updateSettings = (patch) => setSettings((prev) => deepMerge(prev, patch));
   const resetSettings = () => setSettings(DEFAULT_SETTINGS);

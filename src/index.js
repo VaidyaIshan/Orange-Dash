@@ -4,13 +4,16 @@ import './index.css';
 import './theme.css';
 import App from './App';
 import { SettingsProvider } from './context/SettingsContext';
+import { BookmarksProvider } from './context/BookmarksContext';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <SettingsProvider>
-      <App />
+      <BookmarksProvider>
+        <App />
+      </BookmarksProvider>
     </SettingsProvider>
   </React.StrictMode>
 );

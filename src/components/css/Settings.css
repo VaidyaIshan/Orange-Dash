@@ -135,3 +135,119 @@
   margin-top: 4px;
   border-radius: var(--od-radius-sm);
 }
+
+.settings-links-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.settings-links-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--od-divider);
+}
+
+.settings-links-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--od-fill);
+  padding: 3px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.settings-links-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.settings-links-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--od-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.settings-links-url {
+  font-size: 11px;
+  color: var(--od-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.settings-links-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.settings-links-move,
+.settings-links-remove {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: var(--od-fill);
+  color: var(--od-text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.settings-links-move:hover:not(:disabled) {
+  background: var(--od-fill-hover);
+}
+
+.settings-links-move:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.settings-links-remove:hover {
+  background: var(--od-danger);
+  color: white;
+}
+
+.settings-links-empty {
+  color: var(--od-text-muted);
+  text-align: center;
+  padding: 14px 0;
+  font-size: 13px;
+}
+
+.settings-links-form {
+  display: flex;
+  gap: 8px;
+}
+
+.settings-links-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: var(--od-radius-sm);
+  border: 1px solid var(--od-field-border);
+  background: var(--od-field-bg);
+  color: var(--od-text);
+  font-family: var(--od-font);
+  font-size: 12.5px;
+}
+
+.settings-links-form .pill-btn {
+  padding: 0 16px;
+  font-size: 12.5px;
+  flex-shrink: 0;
+}

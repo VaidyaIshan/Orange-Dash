@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./css/Settings.css";
-import { useSettings, ACCENT_PRESETS } from "../context/SettingsContext";
+import { useSettings, ACCENT_PRESETS, FONT_OPTIONS } from "../context/SettingsContext";
+import { useBookmarks, iconSrc } from "../context/BookmarksContext";
 
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 
@@ -17,7 +18,15 @@ function Toggle({ checked, onChange, label }) {
 
 function Settings({ visible, onClose }) {
   const { settings, updateSettings, resetSettings } = useSettings();
+  const { links, addLink, removeLink, moveLink } = useBookmarks();
   const fileInputRef = useRef(null);
+  const [linkForm, setLinkForm] = useState({ name: "", url: "" });
+
+  const handleAddLink = (e) => {
+    e.preventDefault();
+    addLink(linkForm.name, linkForm.url);
+    setLinkForm({ name: "", url: "" });
+  };
 
   const handleImageUpload = (event) => {
     const file = event.target.files?.[0];
@@ -67,6 +76,21 @@ function Settings({ visible, onClose }) {
               />
             </div>
           </div>
+
+          <label className="od-field">
+            <span>Font</span>
+            <select
+              value={settings.fontFamily}
+              onChange={(e) => updateSettings({ fontFamily: e.target.value })}
+              style={{ fontFamily: settings.fontFamily }}
+            >
+              {FONT_OPTIONS.map((font) => (
+                <option key={font.value} value={font.value} style={{ fontFamily: font.value }}>
+                  {font.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
           <label className="od-field">
             <span>Background</span>
@@ -161,6 +185,63 @@ function Settings({ visible, onClose }) {
               onChange={(e) => updateSettings({ header: { title: e.target.value } })}
             />
           </label>
+        </section>
+
+        <section className="settings-section">
+          <h3>Quick Access</h3>
+          <ul className="settings-links-list">
+            {links.map((link, index) => (
+              <li key={link.id} className="settings-links-item">
+                <img src={iconSrc(link)} alt="" className="settings-links-icon" />
+                <div className="settings-links-info">
+                  <div className="settings-links-name">{link.name}</div>
+                  <div className="settings-links-url">{link.url}</div>
+                </div>
+                <div className="settings-links-actions">
+                  <button
+                    className="settings-links-move"
+                    onClick={() => moveLink(link.id, -1)}
+                    disabled={index === 0}
+                    aria-label={`Move ${link.name} up`}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    className="settings-links-move"
+                    onClick={() => moveLink(link.id, 1)}
+                    disabled={index === links.length - 1}
+                    aria-label={`Move ${link.name} down`}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    className="settings-links-remove"
+                    onClick={() => removeLink(link.id)}
+                    aria-label={`Remove ${link.name}`}
+                  >
+                    ✖
+                  </button>
+                </div>
+              </li>
+            ))}
+            {links.length === 0 && <li className="settings-links-empty">No bookmarks yet.</li>}
+          </ul>
+
+          <form className="settings-links-form" onSubmit={handleAddLink}>
+            <input
+              type="text"
+              placeholder="Name"
+              value={linkForm.name}
+              onChange={(e) => setLinkForm((f) => ({ ...f, name: e.target.value }))}
+            />
+            <input
+              type="text"
+              placeholder="URL"
+              value={linkForm.url}
+              onChange={(e) => setLinkForm((f) => ({ ...f, url: e.target.value }))}
+            />
+            <button type="submit" className="pill-btn">Add</button>
+          </form>
         </section>
 
         <section className="settings-section">
