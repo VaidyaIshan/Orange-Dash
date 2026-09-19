@@ -30,7 +30,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
 }
 
@@ -61,7 +61,11 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.65),
     inset 0 -1px 1px rgba(0, 0, 0, 0.08);
   transform-origin: bottom center;
-  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease;
+  /* Continuous ease in/out: the scale itself is recomputed on every pointer
+     move (see workspace.js), and this transition smooths each of those
+     updates into the next so the magnification flows as the cursor glides
+     across icons instead of snapping between fixed levels. */
+  transition: transform 0.22s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.22s ease;
 }
 
 .link-icon {
@@ -71,19 +75,11 @@
   border-radius: 10px;
 }
 
-/* Mac-dock style magnification: the hovered icon grows the most, its
-   immediate neighbors grow a little, matching the real dock's "ripple". */
 .link-item:hover .link-icon-tile {
-  transform: scale(1.35) translateY(-16px);
   box-shadow:
     0 16px 30px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
     inset 0 -1px 1px rgba(0, 0, 0, 0.08);
-}
-
-.link-item:has(+ .link-item:hover) .link-icon-tile,
-.link-item:hover + .link-item .link-icon-tile {
-  transform: scale(1.15) translateY(-8px);
 }
 
 .link-tooltip {
@@ -91,7 +87,7 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(-2px) scale(0.92);
-  margin-bottom: 12px;
+  margin-bottom: 42px;
   padding: 6px 13px;
   background: rgba(28, 28, 30, 0.92);
   color: white;
