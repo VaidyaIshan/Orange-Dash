@@ -58,7 +58,6 @@ function Pomodoro({ visible, onClose }) {
   const [now, setNow] = useState(Date.now());
   const [editingTime, setEditingTime] = useState(false);
   const [editValue, setEditValue] = useState("");
-  const [blocklistOpen, setBlocklistOpen] = useState(false);
   const stateRef = useRef(state);
   const editInputRef = useRef(null);
   stateRef.current = state;
@@ -134,33 +133,6 @@ function Pomodoro({ visible, onClose }) {
     }));
   };
 
-  const skip = () => {
-    cancelAlarm(state.mode);
-    const sessionsCompleted =
-      state.mode === "focus" ? state.sessionsCompleted + 1 : state.sessionsCompleted;
-    const nextMode = nextModeAfter(state.mode, sessionsCompleted);
-    setState((prev) => ({
-      ...prev,
-      mode: nextMode,
-      sessionsCompleted,
-      isRunning: false,
-      endTime: null,
-      remainingMs: prev.durations[nextMode],
-    }));
-  };
-
-  const switchMode = (mode) => {
-    if (mode === state.mode) return;
-    cancelAlarm(state.mode);
-    setState((prev) => ({
-      ...prev,
-      mode,
-      isRunning: false,
-      endTime: null,
-      remainingMs: prev.durations[mode],
-    }));
-  };
-
   const startEditingTime = () => {
     if (state.isRunning) return;
     setEditValue(formatTime(state.remainingMs));
@@ -204,17 +176,7 @@ function Pomodoro({ visible, onClose }) {
         </button>
       </div>
 
-      <div className="pomodoro-modes">
-        {Object.keys(LABELS).map((mode) => (
-          <button
-            key={mode}
-            className={`pomodoro-mode ${state.mode === mode ? "active" : ""}`}
-            onClick={() => switchMode(mode)}
-          >
-            {LABELS[mode]}
-          </button>
-        ))}
-      </div>
+      <div className="pomodoro-current-mode">{LABELS[state.mode]}</div>
 
       <div className="pomodoro-ring-wrapper">
         <svg width="200" height="200" viewBox="0 0 200 200">
@@ -255,18 +217,17 @@ function Pomodoro({ visible, onClose }) {
           <button className="pill-btn" onClick={start}>Start</button>
         )}
         <button className="ghost-btn" onClick={reset}>Reset</button>
-        <button className="ghost-btn" onClick={skip}>Skip</button>
       </div>
 
       <div className="pomodoro-footer">
         <div className="pomodoro-sessions">Focus sessions completed: {state.sessionsCompleted}</div>
         <div className="pomodoro-hint">
-          Tap Focus / Short Break / Long Break to switch, or tap the time to set it. A long break
-          follows automatically every 4th focus session.
+          Tap the time to set it. Breaks start automatically when a session ends, with a long
+          break every 4th focus session.
         </div>
       </div>
 
-      <FocusBlocklist open={blocklistOpen} onToggleOpen={() => setBlocklistOpen((v) => !v)} />
+      <FocusBlocklist />
     </div>
   );
 }

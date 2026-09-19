@@ -16,42 +16,14 @@
   pointer-events: auto;
 }
 
-.pomodoro-modes {
-  display: flex;
-  gap: 3px;
-  margin-bottom: 22px;
-  background: var(--od-fill);
-  border-radius: 12px;
-  padding: 4px;
-}
-
-.pomodoro-mode {
-  flex: 1;
+.pomodoro-current-mode {
   text-align: center;
-  padding: 8px 0;
-  border-radius: 9px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--od-text-secondary);
-  border: none;
-  background: transparent;
-  font-family: var(--od-font);
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-
-.pomodoro-mode:hover {
-  color: var(--od-text);
-}
-
-.pomodoro-mode.active {
-  background: #ffffff;
+  margin-bottom: 18px;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--od-accent);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-}
-
-.pomodoro-mode.active:hover {
-  color: var(--od-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .pomodoro-ring-wrapper {
@@ -156,19 +128,23 @@
   padding-top: 14px;
 }
 
+.focus-blocklist-heading {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .focus-blocklist-toggle-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: var(--od-font);
   font-size: 13px;
   font-weight: 600;
   color: var(--od-text);
-  cursor: pointer;
 }
 
 .focus-blocklist-body {
@@ -176,6 +152,13 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.focus-blocklist-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--od-text-muted);
 }
 
 .focus-blocklist-presets {

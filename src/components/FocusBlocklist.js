@@ -27,7 +27,7 @@ function normalizeDomain(input) {
   return value;
 }
 
-function FocusBlocklist({ open, onToggleOpen }) {
+function FocusBlocklist() {
   const [blocklist, setBlocklist] = useState(DEFAULT_BLOCKLIST);
   const [loaded, setLoaded] = useState(false);
   const [customInput, setCustomInput] = useState("");
@@ -84,58 +84,58 @@ function FocusBlocklist({ open, onToggleOpen }) {
 
   return (
     <div className="focus-blocklist">
-      <button className="focus-blocklist-toggle-row" onClick={onToggleOpen}>
-        <span>Block distracting sites during Focus</span>
-        <span
-          className={`od-toggle ${blocklist.enabled ? "on" : ""}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleEnabled();
-          }}
-        >
+      <h3 className="focus-blocklist-heading">Focus Mode Blocking</h3>
+
+      <div className="focus-blocklist-toggle-row">
+        <span>Block these sites while Focus is running</span>
+        <span className={`od-toggle ${blocklist.enabled ? "on" : ""}`} onClick={toggleEnabled}>
           <span className="od-toggle-knob" />
         </span>
-      </button>
+      </div>
 
-      {open && (
-        <div className="focus-blocklist-body">
-          <div className="focus-blocklist-presets">
-            {PRESET_SITES.map((site) => (
-              <button
-                key={site.key}
-                className={`focus-blocklist-chip ${blocklist.presets[site.key] ? "selected" : ""}`}
-                onClick={() => togglePreset(site.key)}
-              >
-                {site.label}
-              </button>
-            ))}
-          </div>
-
-          {blocklist.custom.length > 0 && (
-            <ul className="focus-blocklist-custom-list">
-              {blocklist.custom.map((domain) => (
-                <li key={domain}>
-                  {domain}
-                  <button onClick={() => removeCustomDomain(domain)} aria-label={`Remove ${domain}`}>
-                    ✖
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <form className="focus-blocklist-form" onSubmit={addCustomDomain}>
-            <input
-              type="text"
-              placeholder="Add another site (e.g. example.com)"
-              value={customInput}
-              onChange={(e) => setCustomInput(e.target.value)}
-            />
-            <button type="submit" className="ghost-btn">Block</button>
-          </form>
-          {permissionError && <p className="focus-blocklist-error">{permissionError}</p>}
+      <div className="focus-blocklist-body">
+        <div className="focus-blocklist-presets">
+          {PRESET_SITES.map((site) => (
+            <button
+              key={site.key}
+              className={`focus-blocklist-chip ${blocklist.presets[site.key] ? "selected" : ""}`}
+              onClick={() => togglePreset(site.key)}
+            >
+              {site.label}
+            </button>
+          ))}
         </div>
-      )}
+
+        {blocklist.custom.length > 0 && (
+          <ul className="focus-blocklist-custom-list">
+            {blocklist.custom.map((domain) => (
+              <li key={domain}>
+                {domain}
+                <button onClick={() => removeCustomDomain(domain)} aria-label={`Remove ${domain}`}>
+                  ✖
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form className="focus-blocklist-form" onSubmit={addCustomDomain}>
+          <input
+            type="text"
+            placeholder="Add another site (e.g. example.com)"
+            value={customInput}
+            onChange={(e) => setCustomInput(e.target.value)}
+          />
+          <button type="submit" className="ghost-btn">Block</button>
+        </form>
+        {permissionError && <p className="focus-blocklist-error">{permissionError}</p>}
+        {!blocklist.enabled && (
+          <p className="focus-blocklist-hint">
+            Turn this on to redirect the sites above to a "stay focused" screen whenever a Focus
+            session is actively running.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
