@@ -310,6 +310,15 @@ function Settings({ visible, onClose }) {
         <button className="ghost-btn settings-reset" onClick={resetSettings}>
           Reset to defaults
         </button>
+
+        <a
+          className="settings-privacy-link"
+          href="https://github.com/VaidyaIshan/Orange-Dash/blob/main/PRIVACY.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Privacy Policy
+        </a>
       </div>
     </div>
   );

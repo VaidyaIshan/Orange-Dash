@@ -160,28 +160,45 @@ function computeBlockedDomains(blocklist) {
 }
 
 async function updateBlockingRules() {
-  const stored = await chrome.storage.local.get([POMODORO_KEY, BLOCKLIST_KEY]);
-  const pomodoro = stored[POMODORO_KEY];
-  const blocklist = stored[BLOCKLIST_KEY];
-  const shouldBlock = Boolean(blocklist?.enabled && pomodoro?.mode === "focus" && pomodoro?.isRunning);
+  try {
+    const stored = await chrome.storage.local.get([POMODORO_KEY, BLOCKLIST_KEY]);
+    const pomodoro = stored[POMODORO_KEY];
+    const blocklist = stored[BLOCKLIST_KEY];
+    const shouldBlock = Boolean(blocklist?.enabled && pomodoro?.mode === "focus" && pomodoro?.isRunning);
 
-  const existing = await chrome.declarativeNetRequest.getDynamicRules();
-  const removeRuleIds = existing.map((rule) => rule.id);
-  const addRules = [];
+    const existing = await chrome.declarativeNetRequest.getDynamicRules();
+    const removeRuleIds = existing.map((rule) => rule.id);
+    const addRules = [];
 
-  if (shouldBlock) {
-    const domains = computeBlockedDomains(blocklist);
-    domains.forEach((domain, index) => {
-      addRules.push({
-        id: index + 1,
-        priority: 1,
-        action: { type: "redirect", redirect: { extensionPath: "/focus.html" } },
-        condition: { urlFilter: `||${domain}^`, resourceTypes: ["main_frame"] },
+    if (shouldBlock) {
+      const domains = computeBlockedDomains(blocklist);
+      domains.forEach((domain, index) => {
+        addRules.push({
+          id: index + 1,
+          priority: 1,
+          action: { type: "redirect", redirect: { extensionPath: "/focus.html" } },
+          condition: { urlFilter: `||${domain}^`, resourceTypes: ["main_frame"] },
+        });
       });
-    });
-  }
+      console.log(
+        `[OrangeDash] Focus Mode: blocking ${domains.length} domain(s) while focus is running:`,
+        domains
+      );
+    } else {
+      console.log(
+        "[OrangeDash] Focus Mode: not blocking right now.",
+        `enabled=${Boolean(blocklist?.enabled)}`,
+        `mode=${pomodoro?.mode}`,
+        `isRunning=${Boolean(pomodoro?.isRunning)}`
+      );
+    }
 
-  await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds, addRules });
+    await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds, addRules });
+    const applied = await chrome.declarativeNetRequest.getDynamicRules();
+    console.log("[OrangeDash] Active dynamic rules after update:", applied);
+  } catch (err) {
+    console.error("[OrangeDash] Failed to update Focus Mode blocking rules:", err);
+  }
 }
 
 chrome.storage.onChanged.addListener((changes, area) => {
