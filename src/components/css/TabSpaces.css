@@ -28,7 +28,7 @@
 .tabspaces-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   overflow-y: auto;
   flex: 1;
   min-height: 40px;
@@ -37,45 +37,109 @@
 .tabspaces-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
+  gap: 6px;
+  padding: 8px 0;
   border-bottom: 1px solid var(--od-divider);
+}
+
+.tabspaces-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 4px;
+  margin: -4px;
+  border-radius: var(--od-radius-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tabspaces-item-main:hover {
+  background: var(--od-fill);
+}
+
+.tabspaces-item-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .tabspaces-item-name {
   font-size: 14px;
   font-weight: 600;
   color: var(--od-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tabspaces-item-count {
-  font-size: 11.5px;
+  font-size: 11px;
+  color: var(--od-text-muted);
+  flex-shrink: 0;
+}
+
+.tabspaces-favicon-row {
+  display: flex;
+  align-items: center;
+}
+
+.tabspaces-favicon {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--od-fill);
+  object-fit: contain;
+  padding: 2px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--od-panel-bg);
+  margin-left: -6px;
+}
+
+.tabspaces-favicon:first-child {
+  margin-left: 0;
+}
+
+.tabspaces-favicon-more {
+  margin-left: 2px;
+  font-size: 10.5px;
   color: var(--od-text-muted);
 }
 
 .tabspaces-item-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   flex-shrink: 0;
 }
 
-.tabspaces-item-actions .pill-btn {
-  padding: 7px 14px;
-  font-size: 12.5px;
+.tabspaces-icon-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: var(--od-fill);
+  color: var(--od-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
-.tabspaces-delete {
-  background: none;
-  border: none;
-  color: var(--od-text-muted);
-  cursor: pointer;
-  font-size: 12px;
+.tabspaces-icon-btn:hover {
+  background: var(--od-fill-hover);
 }
 
 .tabspaces-delete:hover {
-  color: var(--od-danger);
+  background: var(--od-danger);
+  color: white;
 }
 
 .tabspaces-empty {
@@ -85,13 +149,41 @@
   font-size: 13px;
 }
 
+.tabspaces-new-btn {
+  width: 100%;
+  flex-shrink: 0;
+}
+
 .tabspaces-form {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-top: 1px solid var(--od-divider);
-  padding-top: 14px;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+.tabspaces-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--od-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.tabspaces-cancel {
+  background: none;
+  border: none;
+  color: var(--od-accent);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: pointer;
+  padding: 0;
 }
 
 .tabspaces-form input,
@@ -112,5 +204,67 @@
 
 .tabspaces-form input::placeholder,
 .tabspaces-form textarea::placeholder {
+  color: var(--od-text-muted);
+}
+
+.tabspaces-tab-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tabspaces-tab-picker .ghost-btn {
+  align-self: flex-start;
+  padding: 7px 14px;
+  font-size: 12px;
+}
+
+.tabspaces-tab-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+  background: var(--od-field-bg);
+  border: 1px solid var(--od-field-border);
+  border-radius: var(--od-radius-sm);
+}
+
+.tabspaces-tab-list li button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--od-font);
+  font-size: 12.5px;
+  color: var(--od-text);
+}
+
+.tabspaces-tab-list li button:hover {
+  background: var(--od-fill);
+}
+
+.tabspaces-tab-list li button img {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.tabspaces-tab-list li button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabspaces-tab-list-empty {
+  padding: 8px;
+  font-size: 12px;
   color: var(--od-text-muted);
 }
