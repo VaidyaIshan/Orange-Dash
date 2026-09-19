@@ -23,6 +23,16 @@
   font-family: var(--od-font);
 }
 
+.sticky-note.minimized {
+  resize: none;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sticky-note.expanded {
+  resize: none;
+}
+
 .sticky-note-header {
   display: flex;
   align-items: center;
@@ -30,10 +40,17 @@
   padding: 11px 13px;
   cursor: grab;
   background: rgba(0, 0, 0, 0.07);
+  flex-shrink: 0;
 }
 
 .sticky-note-header:active {
   cursor: grabbing;
+}
+
+.sticky-traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .sticky-note-dot,
@@ -44,15 +61,14 @@
   flex-shrink: 0;
   padding: 0;
   border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sticky-note-delete {
   background: #ff5f57;
-  cursor: pointer;
-}
-
-.sticky-note-delete:hover {
-  filter: brightness(0.9);
 }
 
 .sticky-note-dot-yellow {
@@ -61,6 +77,24 @@
 
 .sticky-note-dot-green {
   background: #28c840;
+}
+
+.sticky-note-delete:hover,
+.sticky-note-dot-yellow:hover,
+.sticky-note-dot-green:hover {
+  filter: brightness(0.92);
+}
+
+.sticky-traffic-icon {
+  font-size: 8px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.sticky-traffic-lights:hover .sticky-traffic-icon {
+  opacity: 1;
 }
 
 .sticky-note-colors {
