@@ -20,10 +20,10 @@ function Workspace() {
         {links.map((link) => (
           <div className="link-item" key={link.id}>
             <a href={link.url} target="_blank" rel="noopener noreferrer">
+              <span className="link-tooltip">{link.name}</span>
               <span className="link-icon-tile">
                 <img src={iconSrc(link)} alt={`${link.name} icon`} className="link-icon" />
               </span>
-              <span className="link-name">{link.name}</span>
             </a>
           </div>
         ))}

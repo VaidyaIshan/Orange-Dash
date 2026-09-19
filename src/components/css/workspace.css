@@ -5,13 +5,18 @@
   max-width: 94vw;
   display: flex;
   align-items: flex-end;
-  padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  border-radius: 22px;
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
+  padding: 12px 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, 0.55);
+  border-radius: 24px;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
   transform: translate(-50%, calc(100% + 30px));
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 900;
@@ -26,67 +31,91 @@
   justify-content: center;
   align-items: flex-end;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 8px;
 }
 
 .link-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  width: 58px;
+  align-items: flex-end;
 }
 
 .link-item a {
+  position: relative;
+  display: flex;
   color: white;
   text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
 }
 
 .link-icon-tile {
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.22));
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.28),
+    0 2px 4px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.08);
   transform-origin: bottom center;
   transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease;
 }
 
 .link-icon {
-  width: 28px;
-  height: 28px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 /* Mac-dock style magnification: the hovered icon grows the most, its
    immediate neighbors grow a little, matching the real dock's "ripple". */
 .link-item:hover .link-icon-tile {
-  transform: scale(1.4) translateY(-10px);
-  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.3);
+  transform: scale(1.35) translateY(-16px);
+  box-shadow:
+    0 16px 30px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.08);
 }
 
 .link-item:has(+ .link-item:hover) .link-icon-tile,
 .link-item:hover + .link-item .link-icon-tile {
-  transform: scale(1.18) translateY(-5px);
+  transform: scale(1.15) translateY(-8px);
 }
 
-.link-name {
-  font-size: 11px;
+.link-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-2px) scale(0.92);
+  margin-bottom: 12px;
+  padding: 6px 13px;
+  background: rgba(28, 28, 30, 0.92);
+  color: white;
+  font-size: 12.5px;
   font-weight: 500;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  white-space: nowrap;
   opacity: 0;
-  transition: opacity 0.15s ease;
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
-.link-item:hover .link-name {
+.link-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(28, 28, 30, 0.92);
+}
+
+.link-item:hover .link-tooltip {
   opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
 }
